@@ -5,11 +5,10 @@ import jakarta.validation.constraints.Past;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.validator.login.LoginContainSpaces;
 
-import javax.xml.transform.Source;
 import java.time.LocalDate;
 
 @Data
-public class User implements Source {
+public class User {
     private int id;
     @Email
     private String email;
@@ -27,15 +26,5 @@ public class User implements Source {
         this.name = name;
         this.login = login;
         this.email = email;
-    }
-
-    @Override
-    public void setSystemId(String systemId) {
-
-    }
-
-    @Override
-    public String getSystemId() {
-        return "";
     }
 }
