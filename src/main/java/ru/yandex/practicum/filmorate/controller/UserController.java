@@ -27,9 +27,7 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody User user) {
         user.setId(getNextId());
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
+        validationNameUser(user);
         log.debug("добавляем нового пользователя {}", user);
         users.put(user.getId(), user);
         return user;
@@ -38,15 +36,19 @@ public class UserController {
     @PutMapping
     public User update(@Valid @RequestBody User newUser) {
         if (users.containsKey(newUser.getId())) {
-            if (newUser.getName() == null || newUser.getName().isBlank()) {
-                newUser.setName(newUser.getLogin());
-            }
+            validationNameUser(newUser);
             log.debug("добавляем данные текущего пользователя {}", newUser);
             users.put(newUser.getId(), newUser);
             return newUser;
         }
         log.error("Пользователь с id = {} не найден", newUser.getId());
         throw new ValidationException("Пользователь с id = " + newUser.getId() + " не найден");
+    }
+
+    private void validationNameUser(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
     }
 
     private int getNextId() {

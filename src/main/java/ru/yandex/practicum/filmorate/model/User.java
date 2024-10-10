@@ -1,18 +1,19 @@
 package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.validator.login.LoginContainSpaces;
 
+import javax.xml.transform.Source;
 import java.time.LocalDate;
 
 @Data
-public class User {
+public class User implements Source {
     private int id;
     @Email
     private String email;
-    @NotBlank
+    @LoginContainSpaces
     private String login;
     private String name;
     @Past
@@ -26,5 +27,15 @@ public class User {
         this.name = name;
         this.login = login;
         this.email = email;
+    }
+
+    @Override
+    public void setSystemId(String systemId) {
+
+    }
+
+    @Override
+    public String getSystemId() {
+        return "";
     }
 }

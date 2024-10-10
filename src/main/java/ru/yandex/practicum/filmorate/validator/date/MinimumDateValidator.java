@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.validator;
+package ru.yandex.practicum.filmorate.validator.date;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -15,6 +15,6 @@ public class MinimumDateValidator implements ConstraintValidator<MinimumDate, Lo
 
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
-        return value == null || !value.isBefore(minimumDate);
+        return value == null || value.isAfter(minimumDate);
     }
 }
