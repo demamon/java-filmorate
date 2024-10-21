@@ -6,6 +6,8 @@ import lombok.Data;
 import ru.yandex.practicum.filmorate.validator.login.LoginContainSpaces;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class User {
@@ -17,6 +19,7 @@ public class User {
     private String name;
     @Past
     private LocalDate birthday;
+    private Set<Integer> friendsList;
 
     public User() {
     }
@@ -26,5 +29,12 @@ public class User {
         this.name = name;
         this.login = login;
         this.email = email;
+    }
+
+    public Set<Integer> getFriendsList() {
+        if (friendsList == null) {
+            return new HashSet<>();
+        }
+        return friendsList;
     }
 }
