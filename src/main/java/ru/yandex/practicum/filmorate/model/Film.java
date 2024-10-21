@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class Film {
+public class Film implements Comparable<Film> {
     private int id;
     @NotBlank
     private String name;
@@ -38,5 +38,10 @@ public class Film {
             return new HashSet<>();
         }
         return listLikesUsers;
+    }
+
+    @Override
+    public int compareTo(Film film) {
+        return film.getListLikesUsers().size() - this.getListLikesUsers().size();
     }
 }

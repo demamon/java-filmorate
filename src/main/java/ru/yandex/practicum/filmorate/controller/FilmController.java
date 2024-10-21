@@ -47,19 +47,19 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public String addLikeFilm(@PathVariable int id, @PathVariable int userId) {
+    public Set<Integer> addLikeFilm(@PathVariable int id, @PathVariable int userId) {
         log.trace("Пользователь с id {} хочет поставить лайк фильму с id {}", userId, id);
         return filmService.addLikeFilm(userId, id);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public String deleteLikeFilm(@PathVariable int id, @PathVariable int userId) {
+    public Set<Integer> deleteLikeFilm(@PathVariable int id, @PathVariable int userId) {
         log.trace("Пользователь с id {} хочет убрать лайк с фильма с id {}", userId, id);
         return filmService.deleteLikeFilm(userId, id);
     }
 
     @GetMapping("/popular")
-    public Set<Film> findMorePopularFilm(@RequestParam Optional<Integer> count) {
+    public Film[] findMorePopularFilm(@RequestParam Optional<Integer> count) {
         log.trace("Нужно вернуть фильмы с наибольшим количеством лайков, количество фильмов указано в count");
         int usedCount = 10;
         if (count.isPresent() && count.get() > 0) {

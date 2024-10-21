@@ -37,7 +37,7 @@ public class UserService {
         return userStorage.findUserId(id);
     }
 
-    public String addFriend(int userId, int friendId) {
+    public Set<Integer> addFriend(int userId, int friendId) {
         User user = userStorage.findUserId(userId);
         log.debug("Пользователь который добавляет в друзья {}", user);
         User friend = userStorage.findUserId(friendId);
@@ -56,21 +56,16 @@ public class UserService {
         log.debug("{} и {} теперь друзья", user.getName(), friend.getName());
         log.debug("Список друзей {} пользователя {}", user.getFriendsList(), user.getName());
         log.debug("Список друзей {} пользователя {}", friend.getFriendsList(), friend.getName());
-        return user.getName() + " и " + friend.getName() + " теперь друзья";
+        return userFriendsList;
     }
 
-    public String deleteFriend(int userId, int friendId) {
+    public Set<Integer> deleteFriend(int userId, int friendId) {
         User user = userStorage.findUserId(userId);
         log.debug("Пользователь который удаляет из друзей {}", user);
         User friend = userStorage.findUserId(friendId);
         log.debug("Пользователь которого удаляют из друзей {}", friend);
         Set<Integer> userFriendsList = user.getFriendsList();
         Set<Integer> friendFriendsList = friend.getFriendsList();
-        boolean isNotFriend = !(userFriendsList.contains(friendId));
-        if (isNotFriend) {
-            log.error("{} и {} не друзья", user.getName(), friend.getName());
-            throw new ValidationException(user.getName() + " и " + friend.getName() + " не друзья");
-        }
         userFriendsList.remove(friendId);
         friendFriendsList.remove(userId);
         user.setFriendsList(userFriendsList);
@@ -78,7 +73,7 @@ public class UserService {
         log.debug("{} и {} больше не друзья", user.getName(), friend.getName());
         log.debug("Список друзей {} пользователя {}", user.getFriendsList(), user.getName());
         log.debug("Список друзей {} пользователя {}", friend.getFriendsList(), friend.getName());
-        return user.getName() + " и " + friend.getName() + " больше не друзья";
+        return userFriendsList;
     }
 
     public Collection<User> findFriends(int id) {

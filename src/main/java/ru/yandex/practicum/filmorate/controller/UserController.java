@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.Collection;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -46,13 +47,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public String addFriend(@PathVariable int id, @PathVariable int friendId) {
+    public Set<Integer> addFriend(@PathVariable int id, @PathVariable int friendId) {
         log.trace("Пользователь с id {} хочет добавить друга с id {}", id, friendId);
         return userService.addFriend(id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public String deleteFriend(@PathVariable int id, @PathVariable int friendId) {
+    public Set<Integer> deleteFriend(@PathVariable int id, @PathVariable int friendId) {
         log.trace("пользователь с id {} хочет удалить друга с id {}", id, friendId);
         return userService.deleteFriend(id, friendId);
     }

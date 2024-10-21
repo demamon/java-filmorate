@@ -10,9 +10,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static java.util.Comparator.comparingInt;
 
@@ -44,7 +42,7 @@ public class FilmService {
         return filmStorage.findFilmId(id);
     }
 
-    public String addLikeFilm(int userId, int filmId) {
+    public Set<Integer> addLikeFilm(int userId, int filmId) {
         Film film = filmStorage.findFilmId(filmId);
         log.debug("Фильм которому нужно поставить лайк {}", film);
         User user = userStorage.findUserId(userId);
@@ -60,10 +58,10 @@ public class FilmService {
         film.setListLikesUsers(listLikesUsersFilm);
         log.debug("Пользователь с логином {} успешно поставил лайк фильму {}", user.getLogin(), film.getName());
         log.debug("Список id пользователей поставивших лайки фильму {}", film.getListLikesUsers());
-        return "Пользователь с логином " + user.getLogin() + " успешно поставил лайк фильму " + film.getName();
+        return listLikesUsersFilm;
     }
 
-    public String deleteLikeFilm(int userId, int filmId) {
+    public Set<Integer> deleteLikeFilm(int userId, int filmId) {
         Film film = filmStorage.findFilmId(filmId);
         log.debug("Фильм с которого нужно убрать лайк {}", film);
         User user = userStorage.findUserId(userId);
@@ -79,15 +77,18 @@ public class FilmService {
         film.setListLikesUsers(listLikesUsersFilm);
         log.debug("Пользователь с логином {} успешно убрал лайк с фильма {}", user.getLogin(), film.getName());
         log.debug("Список id пользователей поставивших лайки фильму {}", film.getListLikesUsers());
-        return "Пользователь с логином " + user.getLogin() + " успешно убрал лайк с фильма " + film.getName();
+        return listLikesUsersFilm;
     }
 
-    public Set<Film> findMorePopularFilm(int count) {
+    public Film[] findMorePopularFilm(int count) {
         Collection<Film> allFilm = filmStorage.findAll();
         log.debug("Список всех фильмов {}", allFilm);
-        return allFilm.stream()
-                .sorted(comparingInt(film -> -(film.getListLikesUsers().size())))
+        Film[] films = allFilm.stream()
+                .filter(film -> !film.getListLikesUsers().isEmpty())
+                .sorted(comparingInt(film -> (film.getListLikesUsers().size())))
                 .limit(count)
-                .collect(Collectors.toSet());
+                .toArray(Film[]::new);
+        Arrays.sort(films);
+        return films;
     }
 }
