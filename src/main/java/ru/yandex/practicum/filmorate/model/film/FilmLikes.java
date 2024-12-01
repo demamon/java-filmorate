@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class FilmLikes {
-    private int id_film;
-    private int id_user;
+    private int idFilm;
+    private int idUser;
 }
