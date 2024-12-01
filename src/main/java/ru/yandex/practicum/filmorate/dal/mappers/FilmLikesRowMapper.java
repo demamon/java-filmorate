@@ -12,8 +12,8 @@ public class FilmLikesRowMapper implements RowMapper<FilmLikes> {
     @Override
     public FilmLikes mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         FilmLikes filmLikes = new FilmLikes();
-        filmLikes.setId_film(resultSet.getInt("id_film"));
-        filmLikes.setId_user(resultSet.getInt("id_user"));
+        filmLikes.setIdFilm(resultSet.getInt("id_film"));
+        filmLikes.setIdUser(resultSet.getInt("id_user"));
         return filmLikes;
     }
 }

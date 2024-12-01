@@ -19,7 +19,7 @@ public class FilmLikesDbStorage {
     public Set<Integer> findLikesForFilm(int idFilm) {
         List<FilmLikes> filmLikes = filmLikesRepository.findByFilm(idFilm);
         return filmLikes.stream()
-                .map(FilmLikes::getId_user)
+                .map(FilmLikes::getIdUser)
                 .collect(Collectors.toSet());
     }
 
