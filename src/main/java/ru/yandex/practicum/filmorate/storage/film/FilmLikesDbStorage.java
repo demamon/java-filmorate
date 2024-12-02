@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.dal.mappers.FilmLikesRepository;
+import ru.yandex.practicum.filmorate.dal.FilmLikesRepository;
 import ru.yandex.practicum.filmorate.model.film.FilmLikes;
 
 import java.util.List;
@@ -29,5 +29,9 @@ public class FilmLikesDbStorage {
 
     public void deleteLike(int idFilm, int idUser) {
         filmLikesRepository.delete(idFilm, idUser);
+    }
+
+    public List<FilmLikes> findAll() {
+        return filmLikesRepository.findAll();
     }
 }
